@@ -10,5 +10,7 @@
 
 ```
 git clone https://github.com/Deaponn/todo-app
-first terminal: npm 
+npm i
+first terminal: npm start
+second terminal: node ./server/index.js
 ```

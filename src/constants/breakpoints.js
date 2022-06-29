@@ -7,9 +7,9 @@ const size = {
 }
 
 export const device = {
-    smartphoneSmall: `(max-width: ${size.smartphoneSmall})`,
-    smartphoneBig: `(max-width: ${size.smartphoneBig})`,
-    tablet: `(max-width: ${size.tablet})`,
-    laptop: `(max-width: ${size.laptop})`,
-    desktop: `(max-width: ${size.desktop})`,
+    smartphoneSmall: `(min-width: ${size.smartphoneSmall})`,
+    smartphoneBig: `(min-width: ${size.smartphoneBig})`,
+    tablet: `(min-width: ${size.tablet})`,
+    laptop: `(min-width: ${size.laptop})`,
+    desktop: `(min-width: ${size.desktop})`,
 }

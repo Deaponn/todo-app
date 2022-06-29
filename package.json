@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "cors": "^2.8.5",
     "diagram-js": "^8.6.0",
     "express": "^4.18.1",
     "react": "^18.2.0",
