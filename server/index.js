@@ -1,5 +1,6 @@
 const express = require("express");
-var cors = require("cors");
+const cors = require("cors");
+const todos = require("./todos.json");
 
 const app = express();
 app.use(cors());
@@ -19,8 +20,24 @@ app.get("/", (req, res) => {
             })
         );
     }
-    
+
     res.send(JSON.stringify({ success: false, error: "Wrong username or password" }));
+});
+
+app.get("/logout", (req, res) => {
+    isLogged = false;
+    res.send(JSON.stringify({ success: true }));
+});
+
+app.get("/todos", (req, res) => {
+    if (!isLogged) return res.send(JSON.stringify({ success: false, error: "Permission denied" }));
+    const { page, per_page } = req.query;
+    if (page && per_page) {
+        const start = (page - 1) * per_page
+        const pageOfTodos = todos.slice(start, parseInt(start) + parseInt(per_page));
+        return res.send(JSON.stringify(pageOfTodos));
+    }
+    res.send(JSON.stringify({ success: "false", error: "Missing page and per_page query parameters" }));
 });
 
 app.listen(port, () => {

@@ -1,17 +1,13 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { device } from "../constants/breakpoints";
 
 const Window = styled.div`
-    width: 80%;
+    width: min(80%, 500px);
     height: 280px;
     background-color: #b5ffe1;
     border-radius: 3px;
     transform: translateY(-80px);
     font-size: 20px;
-
-    @media ${device.tablet} {
-    }
 `;
 
 const Inputs = styled.div`
@@ -48,6 +44,7 @@ const Submit = styled.button`
     border: 3px solid ${({ active }) => (active ? "#7ABFCD" : "#F2BBBF")};
     background-color: ${({ active }) => (active ? "#B5DBE3" : "#FBF0EF")};
     cursor: ${({ active }) => (active ? "pointer" : "not-allowed")};
+    transition: border 0.2s, background-color 0.2s, color 0.2s;
 `;
 
 export default function Login({ onLogin }) {

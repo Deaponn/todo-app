@@ -4,7 +4,7 @@
 
 - fake login page (username: user, password: pass)
 - list of editable TODOs
-- each TODO has diagram-js generated graphic which is also editable
+- each TODO has diagram-js generated graph which is also editable
 
 ### Usage
 

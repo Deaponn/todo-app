@@ -5,6 +5,8 @@ import Login from "./pages/Login";
 import List from "./pages/List";
 import { createGlobalStyle } from "styled-components";
 import styled from "styled-components";
+import AccessDenied from "./pages/AccessDenied";
+import NotFound from "./pages/NotFound";
 
 const GlobalStyle = createGlobalStyle`
     * {
@@ -44,16 +46,26 @@ export default function App() {
         />
     );
 
+    const ListPage = (
+        <List
+            onLogout={() => {
+                setIsLogged(false);
+                sessionStorage.setItem("isLogged", "false");
+                fetch("http://localhost:8080/logout")
+            }}
+        />
+    );
+
     return (
         <Router>
             <GlobalStyle />
             <Wrapper bgColor="#08415C" center>
                 <Routes>
                     {!isLogged && <Route path="/" element={LoginPage} />}
-                    <Route path="/login" element={LoginPage} />
-                    {isLogged && <Route path="/" element={<List />} />}
-                    <Route path="/list" element={<List />} />
-                    <Route path="/diagram" element={<Diagram />} />
+                    {isLogged && <Route path="/" element={ListPage} />}
+                    {isLogged && <Route path="/diagram" element={<Diagram />} />}
+                    <Route path="/diagram" element={<AccessDenied />} />
+                    <Route path="/*" element={<NotFound />} />
                 </Routes>
             </Wrapper>
         </Router>
