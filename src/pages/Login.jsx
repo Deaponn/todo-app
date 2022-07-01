@@ -50,13 +50,17 @@ export default function Login({ onLogin }) {
         if (data.success) onLogin();
     };
 
+    const listenForEnter = (e) => {
+        if (e.key === "Enter") sendLoginRequest()
+    }
+
     return (
         <Window>
             <Inputs>
                 <label htmlFor="login">Login</label>
-                <input type="text" placeholder="login" id="login" value={login} onChange={(e) => setLogin(e.target.value)} />
+                <input type="text" placeholder="login" id="login" value={login} onChange={(e) => setLogin(e.target.value)} onKeyPress={listenForEnter}/>
                 <label htmlFor="password">Password</label>
-                <input type="password" placeholder="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input type="password" placeholder="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyPress={listenForEnter}/>
             </Inputs>
             <Button active={login.length !== 0 && password.length !== 0} onClick={() => sendLoginRequest()}>
                 Login

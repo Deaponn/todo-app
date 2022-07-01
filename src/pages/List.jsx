@@ -43,7 +43,7 @@ export default function List({ onLogout }) {
     const [todos, setTodos] = useState();
     const setPage = useCallback(
         (newPage, e) => {
-            if(e.detail > 1 || newPage === 0 || newPage === 11) return
+            if (e && (e.detail > 1 || newPage === 0 || newPage === 11)) return;
             setSearchParams(new URLSearchParams({ page: newPage }));
         },
         [setSearchParams]
