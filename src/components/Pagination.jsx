@@ -3,18 +3,19 @@ import { device } from "../constants/breakpoints";
 
 const Wrapper = styled.div`
     height: 40px;
-    width: min(300px, 100%);
+    width: min(300px, 100%, fit-content);
     display: flex;
     justify-content: space-between;
     align-items: center;
 `;
 
 const Circle = styled.div`
-    height: ${({ big }) => (big ? "30px" : "25px")};
-    width: ${({ big }) => (big ? "30px" : "25px")};
+    height: ${({ big }) => (big ? "30px" : "23px")};
+    width: ${({ big }) => (big ? "30px" : "23px")};
     ${({ noBorder }) => (noBorder ? null : "border: 3px solid black;")}
     ${({ arrow }) => (arrow ? "font-size: 30px;" : null)}
     ${({ isHidden }) => (isHidden ? "display: none !important;" : null)}
+    margin: 5px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
@@ -23,8 +24,8 @@ const Circle = styled.div`
     font-weight: bold;
 
     @media ${device.tablet} {
-        height: ${({ big }) => (big ? "35px" : "30px")};
-        width: ${({ big }) => (big ? "35px" : "30px")};
+        height: ${({ big }) => (big ? "35px" : "25px")};
+        width: ${({ big }) => (big ? "35px" : "25px")};
     }
 `;
 

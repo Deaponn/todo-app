@@ -22,16 +22,17 @@ const Header = styled.div`
     justify-content: space-between;
     align-items: center;
     font-size: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 70px;
+    color: #fbf0ef;
+    padding: 0 20px;
 `;
 
 const Window = styled.div`
     width: 80%;
-    height: 80%;
     background-color: #b5ffe1;
     border-radius: 3px;
     font-size: 20px;
-    padding: 10px 30px;
+    padding: 20px 30px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -43,6 +44,7 @@ const ListHeader = styled.div`
     width: 100%;
     font-size: 30px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
 `;
@@ -59,6 +61,13 @@ const TodoCreate = styled.div`
         border-radius: 3px;
         margin-right: 10px;
     }
+`;
+
+const Todos = styled.div`
+    height: 360px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 `;
 
 export default function List({ onLogout }) {
@@ -124,16 +133,18 @@ export default function List({ onLogout }) {
             </Header>
             <Window>
                 <ListHeader>
-                    <div>List</div>
+                    <div>List of TODOs</div>
                     <TodoCreate>
                         <input type="text" placeholder="Todo name..." value={name} onChange={(e) => setName(e.target.value)} />
                         <Button active onClick={() => addTodo(name)}>
-                            Add
+                            ADD
                         </Button>
                     </TodoCreate>
                 </ListHeader>
-                {todos && todos.map((todo) => <Todo key={todo.id} todo={todo} onDelete={() => deleteTodo(todo.id)} />)}
-                {todos && todos.length === 0 && <>the list is empty</>}
+                <Todos>
+                    {todos && todos.map((todo) => <Todo key={todo.id} todo={todo} onDelete={() => deleteTodo(todo.id)} />)}
+                    {todos && todos.length === 0 && <>the list is empty</>}
+                </Todos>
                 <Pagination page={searchParams.get("page")} setPage={(page, e) => setPage(page, e)} pages={pages} />
             </Window>
         </Layout>

@@ -4,13 +4,21 @@ import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
     width: 100%;
-    height: calc(25% - 20px - 10px - 10px);
+    height: 70px;
     border: 3px solid black;
     box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 30px;
+    margin: 10px 0;
 `;
 
 const Buttons = styled.div`
     height: 32px;
+    display: flex;
+    margin-left: auto;
 `;
 
 export default function Todo({ todo: { id, name }, onDelete }) {
@@ -18,10 +26,10 @@ export default function Todo({ todo: { id, name }, onDelete }) {
 
     return (
         <Wrapper>
-            {name}
+            Title: {name}
             <Buttons>
-                <Button active onClick={() => onDelete()}>X</Button>
-                <Button active onClick={() => navigate(`/diagram?todo_id=${id}`)}>EDIT</Button>
+                <Button style={{marginRight: "10px"}} active onClick={() => navigate(`/diagram?todo_id=${id}`)}>EDIT</Button>
+                <Button style={{marginRight: "10px"}} active onClick={() => onDelete()}>X</Button>
             </Buttons>
         </Wrapper>
     );
