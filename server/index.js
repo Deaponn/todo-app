@@ -1,9 +1,11 @@
 const express = require("express");
 const cors = require("cors");
-const todos = require("./todos.json");
+let todos = require("./todos.json");
+let todoIdCounter = 41;
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 const port = process.env.PORT || 8080;
 
 let isLogged = false;
@@ -33,11 +35,27 @@ app.get("/todos", (req, res) => {
     if (!isLogged) return res.send(JSON.stringify({ success: false, error: "Permission denied" }));
     const { page, per_page } = req.query;
     if (page && per_page) {
-        const start = (page - 1) * per_page
+        const start = (page - 1) * per_page;
         const pageOfTodos = todos.slice(start, parseInt(start) + parseInt(per_page));
         return res.send(JSON.stringify(pageOfTodos));
     }
     res.send(JSON.stringify({ success: "false", error: "Missing page and per_page query parameters" }));
+});
+
+app.post("/todos", (req, res) => {
+    const { name } = req.body;
+    if (name === undefined) return res.send(JSON.stringify({ success: false, error: "Missing Name body property" }));
+    todos.push({ id: todoIdCounter, name, diagram: "yes" });
+    todoIdCounter += 1;
+    res.send(JSON.stringify({ success: true }));
+});
+
+app.delete("/todos", (req, res) => {
+    const id = parseInt(req.query.id);
+    if (!id && id !== 0) return res.send(JSON.stringify({ success: false, error: "Missing Id query parameter" }));
+    todos = todos.filter((todo) => todo.id !== id);
+    console.log(id, todos);
+    res.send(JSON.stringify({ success: true, deletedTodo: id }));
 });
 
 app.listen(port, () => {
