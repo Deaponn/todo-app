@@ -37,7 +37,7 @@ app.get("/todos", (req, res) => {
     if (page && per_page) {
         const start = (page - 1) * per_page;
         const pageOfTodos = todos.slice(start, parseInt(start) + parseInt(per_page));
-        return res.send(JSON.stringify(pageOfTodos));
+        return res.send(JSON.stringify({ pageOfTodos, pages: Math.ceil(todos.length / per_page) }));
     }
     res.send(JSON.stringify({ success: "false", error: "Missing page and per_page query parameters" }));
 });

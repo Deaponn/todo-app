@@ -64,13 +64,14 @@ const TodoCreate = styled.div`
 export default function List({ onLogout }) {
     const [searchParams, setSearchParams] = useSearchParams();
     const [todos, setTodos] = useState();
+    const [pages, setPages] = useState();
     const [name, setName] = useState("");
     const setPage = useCallback(
         (newPage, e) => {
-            if (e && (e.detail > 1 || newPage === 0 || newPage === 11)) return;
+            if (e && (e.detail > 1 || newPage === 0 || newPage > pages)) return;
             setSearchParams(new URLSearchParams({ page: newPage }));
         },
-        [setSearchParams]
+        [setSearchParams, pages]
     );
 
     const fetchItems = useCallback(
@@ -78,9 +79,11 @@ export default function List({ onLogout }) {
             const response = await fetch(`http://localhost:8080/todos?page=${page}&per_page=${perPage}`);
             const items = await response.json();
             if (!items.success && items.error === "Permission denied") onLogout();
-            setTodos(items);
+            if (items.pageOfTodos.length === 0 && page > 1) return setPage(page - 1);
+            setTodos(items.pageOfTodos);
+            setPages(items.pages);
         },
-        [onLogout]
+        [onLogout, setPage]
     );
 
     const deleteTodo = useCallback(
@@ -130,7 +133,8 @@ export default function List({ onLogout }) {
                     </TodoCreate>
                 </ListHeader>
                 {todos && todos.map((todo) => <Todo key={todo.id} todo={todo} onDelete={() => deleteTodo(todo.id)} />)}
-                <Pagination page={searchParams.get("page")} setPage={(page, e) => setPage(page, e)} />
+                {todos && todos.length === 0 && <>the list is empty</>}
+                <Pagination page={searchParams.get("page")} setPage={(page, e) => setPage(page, e)} pages={pages} />
             </Window>
         </Layout>
     );
