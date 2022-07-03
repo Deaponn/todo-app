@@ -21,7 +21,6 @@ export default function Diagram() {
             diagram.destroy();
         };
     }, []);
-    // const editor = new Editor({ container: root.current });
 
-    return <div ref={root} id="diagram"></div>;
+    return <div ref={root} id="diagram" style={{backgroundColor: "white"}}></div>;
 }

@@ -1,11 +1,12 @@
 /**
  * A example palette provider.
  */
-export default class ExamplePaletteProvider {
-    constructor(create, elementFactory, lassoTool, palette) {
+export default class PaletteProvider {
+    constructor(create, elementFactory, lassoTool, handTool, palette) {
         this._create = create;
         this._elementFactory = elementFactory;
         this._lassoTool = lassoTool;
+        this.handTool = handTool;
         this._palette = palette;
 
         palette.registerProvider(this);
@@ -14,7 +15,8 @@ export default class ExamplePaletteProvider {
     getPaletteEntries = function () {
         var create = this._create,
             elementFactory = this._elementFactory,
-            lassoTool = this._lassoTool;
+            lassoTool = this._lassoTool,
+            handTool = this._handTool;
 
         return {
             "lasso-tool": {
@@ -24,6 +26,16 @@ export default class ExamplePaletteProvider {
                 action: {
                     click: function (event) {
                         lassoTool.activateSelection(event);
+                    },
+                },
+            },
+            "hand-tool": {
+                group: "tools",
+                className: "palette-icon-create-frame",
+                title: "Hand Tool",
+                action: {
+                    click: function (e) {
+                        handTool.activateHand(e);
                     },
                 },
             },
@@ -66,4 +78,4 @@ export default class ExamplePaletteProvider {
     };
 }
 
-ExamplePaletteProvider.$inject = ["create", "elementFactory", "lassoTool", "palette"];
+PaletteProvider.$inject = ["create", "elementFactory", "lassoTool", "handTool", "palette"];

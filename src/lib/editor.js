@@ -13,19 +13,17 @@ import ResizeModule from "diagram-js/lib/features/resize";
 import RulesModule from "diagram-js/lib/features/rules";
 import SelectionModule from "diagram-js/lib/features/selection";
 import ZoomScrollModule from "diagram-js/lib/navigation/zoomscroll";
+import GridSnapping from "diagram-js/lib/features/grid-snapping";
+import InteractionEvents from "diagram-js/lib/features/interaction-events";
+import Bendpoints from "diagram-js/lib/features/bendpoints";
+import HandTool from "diagram-js/lib/features/hand-tool";
+import Tooltips from "diagram-js/lib/features/tooltips";
+import AutoPlace from "diagram-js/lib/features/auto-place"
 
-import ExampleContextPadProvider from "./providers/ExampleContextPadProvider";
-import ExamplePaletteProvider from "./providers/ExamplePaletteProvider";
-import ExampleRuleProvider from "./providers/ExampleRuleProvider";
+import MyCustomModules from "./providers";
 
-export function createDiagram({container}) {
-    console.log("container", container);
-    var ExampleModule = {
-        __init__: ["exampleContextPadProvider", "examplePaletteProvider", "exampleRuleProvider"],
-        exampleContextPadProvider: ["type", ExampleContextPadProvider],
-        examplePaletteProvider: ["type", ExamplePaletteProvider],
-        exampleRuleProvider: ["type", ExampleRuleProvider],
-    };
+export function createDiagram({ container }) {
+    // console.log("container", container);
 
     var diagram = new Diagram({
         canvas: {
@@ -35,7 +33,6 @@ export function createDiagram({container}) {
             ConnectModule,
             ContextPadModule,
             CreateModule,
-            ExampleModule,
             LassoToolModule,
             ModelingModule,
             MoveCanvasModule,
@@ -44,8 +41,15 @@ export function createDiagram({container}) {
             PaletteModule,
             ResizeModule,
             RulesModule,
+            MyCustomModules,
             SelectionModule,
             ZoomScrollModule,
+            InteractionEvents,
+            Bendpoints,
+            Tooltips,
+            HandTool,
+            GridSnapping,
+            AutoPlace
         ],
     });
 
@@ -97,7 +101,6 @@ export function createDiagram({container}) {
     });
 
     canvas.addShape(shape2, root);
-    console.log(shape2)
 
     var connection1 = elementFactory.createConnection({
         waypoints: [
@@ -131,5 +134,5 @@ export function createDiagram({container}) {
 
     selection.select(shape3);
 
-    return diagram
+    return diagram;
 }
