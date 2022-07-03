@@ -15,27 +15,16 @@ export default class PaletteProvider {
     getPaletteEntries = function () {
         var create = this._create,
             elementFactory = this._elementFactory,
-            lassoTool = this._lassoTool,
-            handTool = this._handTool;
+            lassoTool = this._lassoTool;
 
         return {
-            "lasso-tool": {
+            "selection-tool": {
                 group: "tools",
                 className: "palette-icon-lasso-tool",
                 title: "Activate Lasso Tool",
                 action: {
                     click: function (event) {
                         lassoTool.activateSelection(event);
-                    },
-                },
-            },
-            "hand-tool": {
-                group: "tools",
-                className: "palette-icon-create-frame",
-                title: "Hand Tool",
-                action: {
-                    click: function (e) {
-                        handTool.activateHand(e);
                     },
                 },
             },

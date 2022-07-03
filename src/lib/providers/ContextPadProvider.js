@@ -66,7 +66,7 @@ export default class ContextPadProvider {
             },
             newBlock: {
                 group: "create",
-                className: "context-pad-icon-connect",
+                className: "context-pad-icon-new-block",
                 title: "New block",
                 action: {
                     click: addBlock,

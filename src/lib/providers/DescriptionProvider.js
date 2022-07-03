@@ -3,34 +3,33 @@
  */
 
 export default class DescriptionProvider {
-    constructor(eventBus, tooltips, modeling) {
-        this.eventBus = eventBus;
-        this.tooltips = tooltips;
-        this.modeling = modeling;
+    constructor(eventBus, modeling, overlays) {
+        this._eventBus = eventBus;
+        this._modeling = modeling;
+        this._overlays = overlays;
         eventBus.on("element.dblclick", (e) => this.createDescription(e.element));
-        eventBus.on(["shape.move.cleanup", "resize.cleanup"], (e) => this.updateDescriptionPosition(e.shape));
+        eventBus.on("resize.ended", (e) => this.updateDescriptionSize(e.shape));
     }
 
     createDescription(target) {
         console.log(target);
-        if (target.isFrame || !target.id.includes("shape") || target.tooltipId) return;
-        target.tooltipId = this.tooltips.add({
+        if (target.isFrame || !target.id.includes("shape") || target.overlayId) return;
+        target.overlayId = this._overlays.add(target, {
             position: {
-                x: target.x + 5,
-                y: target.y + target.height / 2 - 11,
+                top: target.height / 2 - 11,
+                left: 5,
             },
             html: `<input type="text" style="width: ${target.width - 18}px" placeholder="Description..." />`,
         });
     }
 
-    updateDescriptionPosition(target) {
-        if (!target.tooltipId) return;
-        const tooltip = this.tooltips.get(target.tooltipId);
-        tooltip.position.x = target.x + 5;
-        tooltip.position.y = target.y + target.height / 2 - 11;
-        tooltip.htmlContainer.lastChild.style.width = target.width - 18 + "px";
-        this.tooltips._updateTooltip(tooltip);
+    updateDescriptionSize(target) {
+        if (!target.overlayId) return;
+        const overlay = this._overlays.get(target.overlayId);
+        overlay.htmlContainer.lastChild.style.width = target.width - 18 + "px";
+        overlay.position.top = target.height / 2 - 11;
+        this._overlays._updateOverlay(overlay);
     }
 }
 
-DescriptionProvider.$inject = ["eventBus", "tooltips", "modeling"];
+DescriptionProvider.$inject = ["eventBus", "modeling", "overlays"];
