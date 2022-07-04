@@ -22,8 +22,14 @@ import HandTool from "diagram-js/lib/features/hand-tool";
 import Tooltips from "diagram-js/lib/features/tooltips";
 import AutoPlace from "diagram-js/lib/features/auto-place";
 import AutoScroll from "diagram-js/lib/features/auto-scroll";
-import Keyboard from "diagram-js/lib/features/keyboard"
-import EditorActions from "diagram-js/lib/features/editor-actions"
+import Keyboard from "diagram-js/lib/features/keyboard";
+import EditorActions from "diagram-js/lib/features/editor-actions";
+import Clipboard from "diagram-js/lib/features/clipboard";
+import GlobalConnect from "diagram-js/lib/features/global-connect";
+import Dragging from "diagram-js/lib/features/dragging";
+import Connect from "diagram-js/lib/features/connect";
+import Mouse from "diagram-js/lib/features/mouse";
+import CommandStack from "diagram-js/lib/command";
 
 import MyCustomModules from "./providers";
 
@@ -38,7 +44,13 @@ export function createDiagram({ container }) {
             ConnectModule,
             ConnectPreview,
             KeyboardMoveCanvasModule,
+            Clipboard,
+            GlobalConnect,
             CopyPaste,
+            Dragging,
+            CommandStack,
+            Mouse,
+            Connect,
             ContextPadModule,
             CreateModule,
             LassoToolModule,
@@ -61,17 +73,19 @@ export function createDiagram({ container }) {
             AutoPlace,
             AutoScroll,
         ],
+        keyboard: { bindTo: document.body }
     });
 
-    console.log("diagram", diagram);
+    console.log("diagram", diagram.get("paletteProvider"));
 
     var canvas = diagram.get("canvas"),
         defaultRenderer = diagram.get("defaultRenderer"),
         elementFactory = diagram.get("elementFactory"),
         selection = diagram.get("selection"),
         copyPaste = diagram.get("copyPaste"),
-        eventBus = diagram.get("eventBus")
+        eventBus = diagram.get("eventBus");
 
+    eventBus.fire("attach");
     // override default styles
     defaultRenderer.CONNECTION_STYLE = {
         fill: "none",
@@ -132,14 +146,16 @@ export function createDiagram({ container }) {
         height: 80,
     });
 
-    eventBus.on("copyPaste.elementsCopied", (e) => console.log("copied", e))
+    let tree;
+
+    eventBus.on("copyPaste.pasteElements", (e) => console.log("pasted", e));
+    eventBus.on("keyboard.keydown", (e) => console.log("pasted", e));
+    eventBus.on("save.getRoot", () => root);
+
+    console.log("root",root)
 
     canvas.addShape(shape3, root);
 
-    console.log(root, copyPaste.createTree(root.id));
-    console.log(copyPaste)
-
-    copyPaste.paste(root, {x: 600, y: 100});
     var shape4 = elementFactory.createShape({
         x: 425,
         y: 50,

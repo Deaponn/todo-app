@@ -18,9 +18,21 @@ export default class MyRuleProvider extends RuleProvider {
             return source.parent === target.parent;
         });
 
+        this.addRule("connection.start", function (context) {
+            return context.source.id.includes("shape") && !context.source.isFrame;
+        });
+
+        this.addRule("copyPaste.canCopyElements", function (context) {
+            return true;
+        });
+
+        this.addRule("element.copy", function (context) {
+            return true;
+        });
+
         this.addRule("shape.resize", function (context) {
             var shape = context.shape;
-            return isFrameElement(shape);
+            return isFrameElement(shape) || shape.id.includes("shape");
         });
-    };
+    }
 }

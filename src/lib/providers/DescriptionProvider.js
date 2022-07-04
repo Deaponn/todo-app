@@ -12,7 +12,6 @@ export default class DescriptionProvider {
     }
 
     createDescription(target) {
-        console.log(target);
         if (target.isFrame || !target.id.includes("shape") || target.overlayId) return;
         target.overlayId = this._overlays.add(target, {
             position: {

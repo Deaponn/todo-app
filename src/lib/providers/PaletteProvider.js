@@ -2,12 +2,14 @@
  * A example palette provider.
  */
 export default class PaletteProvider {
-    constructor(create, elementFactory, lassoTool, handTool, palette) {
+    constructor(create, elementFactory, lassoTool, palette, globalConnect, copyPaste, eventBus) {
         this._create = create;
         this._elementFactory = elementFactory;
         this._lassoTool = lassoTool;
-        this.handTool = handTool;
         this._palette = palette;
+        this._globalConnect = globalConnect;
+        this._copyPaste = copyPaste;
+        this._eventBus = eventBus;
 
         palette.registerProvider(this);
     }
@@ -15,7 +17,10 @@ export default class PaletteProvider {
     getPaletteEntries = function () {
         var create = this._create,
             elementFactory = this._elementFactory,
-            lassoTool = this._lassoTool;
+            lassoTool = this._lassoTool,
+            globalConnect = this._globalConnect,
+            copyPaste = this._copyPaste,
+            eventBus = this._eventBus
 
         return {
             "selection-tool": {
@@ -25,6 +30,16 @@ export default class PaletteProvider {
                 action: {
                     click: function (event) {
                         lassoTool.activateSelection(event);
+                    },
+                },
+            },
+            "global-connection-tool": {
+                group: "tools",
+                className: "palette-icon-lasso-tool",
+                title: "Gobal Connection Tool",
+                action: {
+                    click: function () {
+                        globalConnect.start();
                     },
                 },
             },
@@ -63,8 +78,24 @@ export default class PaletteProvider {
                     },
                 },
             },
+            "create-separator": {
+                group: "create",
+                separator: true,
+            },
+            "save-diagram": {
+                group: "control",
+                className: "palette-icon-create-frame",
+                title: "Save Diagram",
+                action: {
+                    click: function (e) {
+                        const root = eventBus.fire("save.getRoot")
+                        copyPaste.copy(root.children);
+                        copyPaste.paste({ element: root, point: { x: 600, y: 100 } });
+                    },
+                },
+            },
         };
     };
 }
 
-PaletteProvider.$inject = ["create", "elementFactory", "lassoTool", "handTool", "palette"];
+PaletteProvider.$inject = ["create", "elementFactory", "lassoTool", "palette", "globalConnect", "copyPaste", "eventBus"];
