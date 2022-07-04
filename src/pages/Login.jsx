@@ -5,7 +5,7 @@ import { useState } from "react";
 const Window = styled.div`
     width: min(80%, 500px);
     height: 280px;
-    background-color: #b5ffe1;
+    background-color: #B7B5E4;
     border-radius: 3px;
     transform: translateY(-80px);
     font-size: 20px;
@@ -28,7 +28,7 @@ const Inputs = styled.div`
         width: 70%;
         margin-top: 10px;
         font-size: 20px;
-        background-color: #b5ffe1;
+        background-color: #B7B5E4;
         transition: border-bottom 0.2s;
     }
 

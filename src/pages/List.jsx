@@ -16,20 +16,25 @@ const Layout = styled.div`
 const Header = styled.div`
     width: 85%;
     height: 60px;
-    border-bottom: 3px solid black;
+    border-bottom: 3px solid #1C190D;
     border-radius: 3px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 20px;
     margin-bottom: 70px;
-    color: #fbf0ef;
+    color: #08415C;
     padding: 0 20px;
+
+
+    & > div:last-child {
+        cursor: pointer;
+    }
 `;
 
 const Window = styled.div`
     width: 80%;
-    background-color: #b5ffe1;
+    background-color: #FBF0EF;
     border-radius: 3px;
     font-size: 20px;
     padding: 20px 30px;
@@ -56,10 +61,11 @@ const TodoCreate = styled.div`
 
     & input {
         border: none;
-        border-bottom: 3px solid black;
-        background-color: #b5ffe1;
+        border-bottom: 3px solid #1C190D;
+        background-color: #FBF0EF;
         border-radius: 3px;
         margin-right: 10px;
+        font-size: 17px;
     }
 `;
 
@@ -109,7 +115,6 @@ export default function List({ onLogout }) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    // 'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: JSON.stringify({ name }),
             });
@@ -128,8 +133,8 @@ export default function List({ onLogout }) {
     return (
         <Layout>
             <Header>
-                <div>Username</div>
-                <div onClick={() => onLogout()}>Logout</div>
+                <div>Username: Hardcoded</div>
+                <Button active onClick={() => onLogout()}>Logout</Button>
             </Header>
             <Window>
                 <ListHeader>

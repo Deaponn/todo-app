@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Wrapper = styled.div`
     width: 100%;
     height: 70px;
-    border: 3px solid black;
+    border: 3px solid #1C190D;
     box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;

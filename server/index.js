@@ -44,8 +44,8 @@ app.get("/todos", (req, res) => {
 
 app.get("/diagram", (req, res) => {
     const { id } = req.query;
-    if(id === undefined) return res.send(JSON.stringify({success: false, error: "Missing Id query parameter"}))
-    res.send(JSON.stringify({ id, data: todos.find(element => element.id === parseInt(id)) }));
+    if (id === undefined) return res.send(JSON.stringify({ success: false, error: "Missing Id query parameter" }));
+    res.send(JSON.stringify({ id, data: todos.find((element) => element.id === parseInt(id)) }));
 });
 
 app.post("/save", (req, res) => {
@@ -53,7 +53,8 @@ app.post("/save", (req, res) => {
     if (id === undefined || !data) return res.send(JSON.stringify({ success: false, error: "Missing Id and/or Data body property" }));
     todos.find((element) => element.id === parseInt(id)).diagram = data;
     res.send(JSON.stringify({ success: true }));
-    
+});
+
 app.post("/todos", (req, res) => {
     const { name } = req.body;
     if (name === undefined) return res.send(JSON.stringify({ success: false, error: "Missing Name body property" }));

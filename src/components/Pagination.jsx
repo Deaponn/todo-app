@@ -12,16 +12,17 @@ const Wrapper = styled.div`
 const Circle = styled.div`
     height: ${({ big }) => (big ? "30px" : "23px")};
     width: ${({ big }) => (big ? "30px" : "23px")};
+    cursor: ${({ noBorder, arrow }) => (noBorder && !arrow ? "default" : "pointer")};
     ${({ noBorder }) => (noBorder ? null : "border: 3px solid black;")}
     ${({ arrow }) => (arrow ? "font-size: 30px;" : null)}
     ${({ isHidden }) => (isHidden ? "display: none !important;" : null)}
     margin: 5px;
     border-radius: 50%;
-    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
+    transition: height 0.2s, width 0.1s;
 
     @media ${device.tablet} {
         height: ${({ big }) => (big ? "35px" : "25px")};

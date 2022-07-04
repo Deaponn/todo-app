@@ -59,7 +59,7 @@ export default function App() {
     return (
         <Router>
             <GlobalStyle />
-            <Wrapper bgColor="#08415C" center>
+            <Wrapper bgColor="#CFCCD6" center>
                 <Routes>
                     {!isLogged && <Route path="/" element={LoginPage} />}
                     {isLogged && <Route path="/" element={ListPage} />}
