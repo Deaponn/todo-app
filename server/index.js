@@ -10,6 +10,10 @@ const port = process.env.PORT || 8080;
 
 let isLogged = false;
 
+const checkLogin = (req, res, next) => {
+    if (!isLogged) return res.send(JSON.stringify({ success: false, error: "Permission denied" }));
+};
+
 app.get("/", (req, res) => {
     const { login, password } = req.query;
 
@@ -26,13 +30,12 @@ app.get("/", (req, res) => {
     res.send(JSON.stringify({ success: false, error: "Wrong username or password" }));
 });
 
-app.get("/logout", (req, res) => {
+app.get("/logout", checkLogin, (req, res) => {
     isLogged = false;
     res.send(JSON.stringify({ success: true }));
 });
 
-app.get("/todos", (req, res) => {
-    if (!isLogged) return res.send(JSON.stringify({ success: false, error: "Permission denied" }));
+app.get("/todos", checkLogin, (req, res) => {
     const { page, per_page } = req.query;
     if (page && per_page) {
         const start = (page - 1) * per_page;
@@ -42,20 +45,20 @@ app.get("/todos", (req, res) => {
     res.send(JSON.stringify({ success: "false", error: "Missing page and per_page query parameters" }));
 });
 
-app.get("/diagram", (req, res) => {
+app.get("/diagram", checkLogin, (req, res) => {
     const { id } = req.query;
     if (id === undefined) return res.send(JSON.stringify({ success: false, error: "Missing Id query parameter" }));
     res.send(JSON.stringify({ id, data: todos.find((element) => element.id === parseInt(id)) }));
 });
 
-app.post("/save", (req, res) => {
+app.post("/save", checkLogin, (req, res) => {
     const { id, data } = req.body;
     if (id === undefined || !data) return res.send(JSON.stringify({ success: false, error: "Missing Id and/or Data body property" }));
     todos.find((element) => element.id === parseInt(id)).diagram = data;
     res.send(JSON.stringify({ success: true }));
 });
 
-app.post("/todos", (req, res) => {
+app.post("/todos", checkLogin, (req, res) => {
     const { name } = req.body;
     if (name === undefined) return res.send(JSON.stringify({ success: false, error: "Missing Name body property" }));
     todos.push({ id: todoIdCounter, name, diagram: "yes" });
@@ -63,11 +66,10 @@ app.post("/todos", (req, res) => {
     res.send(JSON.stringify({ success: true }));
 });
 
-app.delete("/todos", (req, res) => {
+app.delete("/todos", checkLogin, (req, res) => {
     const id = parseInt(req.query.id);
     if (!id && id !== 0) return res.send(JSON.stringify({ success: false, error: "Missing Id query parameter" }));
     todos = todos.filter((todo) => todo.id !== id);
-    console.log(id, todos);
     res.send(JSON.stringify({ success: true, deletedTodo: id }));
 });
 
