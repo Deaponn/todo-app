@@ -15,10 +15,10 @@ export default class DescriptionProvider {
         if (target.isFrame || !target.id.includes("shape") || target.overlayId) return;
         target.overlayId = this._overlays.add(target, {
             position: {
-                top: target.height / 2 - 11,
+                top: target.height / 2 - 20,
                 left: 5,
             },
-            html: `<input type="text" style="width: ${target.width - 18}px" placeholder="Description..." />`,
+            html: `<div contenteditable>Description...</div>`,
         });
     }
 
@@ -26,7 +26,7 @@ export default class DescriptionProvider {
         if (!target.overlayId) return;
         const overlay = this._overlays.get(target.overlayId);
         overlay.htmlContainer.lastChild.style.width = target.width - 18 + "px";
-        overlay.position.top = target.height / 2 - 11;
+        overlay.position.top = target.height / 2 - 20;
         this._overlays._updateOverlay(overlay);
     }
 }

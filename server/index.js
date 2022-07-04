@@ -12,6 +12,7 @@ let isLogged = false;
 
 const checkLogin = (req, res, next) => {
     if (!isLogged) return res.send(JSON.stringify({ success: false, error: "Permission denied" }));
+    next()
 };
 
 app.get("/", (req, res) => {
