@@ -1,16 +1,14 @@
-import ExampleContextPadProvider from './ExampleContextPadProvider';
-import ExamplePaletteProvider from './ExamplePaletteProvider';
-import ExampleRuleProvider from './ExampleRuleProvider';
+import ContextPadProvider from "./ContextPadProvider";
+import PaletteProvider from "./PaletteProvider";
+import RuleProvider from "./RuleProvider";
+import DescriptionProvider from "./DescriptionProvider";
 
 const exports = {
-    __init__: [
-        'exampleContextPadProvider',
-        'examplePaletteProvider',
-        'exampleRuleProvider'
-    ],
-    exampleContextPadProvider: [ 'type', ExampleContextPadProvider ],
-    examplePaletteProvider: [ 'type', ExamplePaletteProvider ],
-    exampleRuleProvider: [ 'type', ExampleRuleProvider ]
+    __init__: ["contextPadProvider", "paletteProvider", "ruleProvider", "descriptionProvider"],
+    contextPadProvider: ["type", ContextPadProvider],
+    paletteProvider: ["type", PaletteProvider],
+    ruleProvider: ["type", RuleProvider],
+    descriptionProvider: ["type", DescriptionProvider],
 };
 
-export default exports
+export default exports;
