@@ -33,9 +33,7 @@ import CommandStack from "diagram-js/lib/command";
 
 import MyCustomModules from "./providers";
 
-export function createDiagram({ container }) {
-    // console.log("container", container);
-
+export function createDiagram({ container, saveDiagram }) {
     var diagram = new Diagram({
         canvas: {
             container,
@@ -73,19 +71,18 @@ export function createDiagram({ container }) {
             AutoPlace,
             AutoScroll,
         ],
-        keyboard: { bindTo: document.body }
+        keyboard: { bindTo: document.body },
     });
-
-    console.log("diagram", diagram.get("paletteProvider"));
 
     var canvas = diagram.get("canvas"),
         defaultRenderer = diagram.get("defaultRenderer"),
         elementFactory = diagram.get("elementFactory"),
-        selection = diagram.get("selection"),
+        clipboard = diagram.get("clipboard"),
         copyPaste = diagram.get("copyPaste"),
         eventBus = diagram.get("eventBus");
 
     eventBus.fire("attach");
+
     // override default styles
     defaultRenderer.CONNECTION_STYLE = {
         fill: "none",
@@ -107,66 +104,14 @@ export function createDiagram({ container }) {
     // add root
     var root = elementFactory.createRoot();
 
-    canvas.setRootElement(root);
-
-    // add shapes
-    var shape1 = elementFactory.createShape({
-        x: 150,
-        y: 100,
-        width: 100,
-        height: 80,
-    });
-
-    canvas.addShape(shape1, root);
-
-    var shape2 = elementFactory.createShape({
-        x: 290,
-        y: 220,
-        width: 100,
-        height: 80,
-    });
-
-    canvas.addShape(shape2, root);
-
-    var connection1 = elementFactory.createConnection({
-        waypoints: [
-            { x: 250, y: 180 },
-            { x: 290, y: 220 },
-        ],
-        source: shape1,
-        target: shape2,
-    });
-
-    canvas.addConnection(connection1, root);
-
-    var shape3 = elementFactory.createShape({
-        x: 600,
-        y: 300,
-        width: 100,
-        height: 80,
-    });
-
-    let tree;
-
-    eventBus.on("copyPaste.pasteElements", (e) => console.log("pasted", e));
-    eventBus.on("keyboard.keydown", (e) => console.log("pasted", e));
     eventBus.on("save.getRoot", () => root);
-
-    console.log("root",root)
-
-    canvas.addShape(shape3, root);
-
-    var shape4 = elementFactory.createShape({
-        x: 425,
-        y: 50,
-        width: 300,
-        height: 200,
-        isFrame: true,
+    eventBus.on("save.sendData", () => saveDiagram(clipboard.get()));
+    eventBus.on("save.loadData", ({ data: { diagram: data } }) => {
+        clipboard.set(data);
+        copyPaste.paste({ element: root, point: { x: 400, y: 200 } });
     });
 
-    canvas.addShape(shape4, root);
-
-    selection.select(shape3);
+    canvas.setRootElement(root);
 
     return diagram;
 }

@@ -3,7 +3,7 @@ import RuleProvider from "diagram-js/lib/features/rules/RuleProvider";
 import { isFrameElement } from "diagram-js/lib/util/Elements";
 
 export default class MyRuleProvider extends RuleProvider {
-    init = function () {
+    init() {
         this.addRule("shape.move", function (context) {
             var target = context.target,
                 shape = context.shape;

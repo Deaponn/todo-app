@@ -35,7 +35,7 @@ export default class PaletteProvider {
             },
             "global-connection-tool": {
                 group: "tools",
-                className: "palette-icon-lasso-tool",
+                className: "palette-icon-global-connection",
                 title: "Gobal Connection Tool",
                 action: {
                     click: function () {
@@ -84,13 +84,13 @@ export default class PaletteProvider {
             },
             "save-diagram": {
                 group: "control",
-                className: "palette-icon-create-frame",
+                className: "palette-icon-save-diagram",
                 title: "Save Diagram",
                 action: {
                     click: function (e) {
                         const root = eventBus.fire("save.getRoot")
                         copyPaste.copy(root.children);
-                        copyPaste.paste({ element: root, point: { x: 600, y: 100 } });
+                        eventBus.fire("save.sendData")
                     },
                 },
             },
